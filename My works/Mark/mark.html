@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marking those present</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            width: 60%;
+            margin: 0 auto;
+        }
+        .attendance-list input {
+            margin-right: 10px;
+        }
+        .attendance-list {
+            margin-top: 20px;
+        }
+        .label2{
+            margin-left: 20px;
+        }
+        .title{
+            display: flex;
+            width: 350px;
+        }
+        h4{
+            margin-bottom: 0;
+        }
+        .mark{
+            margin-left: 195px;
+        }
+        input[type="checkbox"]{
+            margin-left: 150px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Отметка присутствующих</h1>
+
+        <!-- Выбор группы и пары -->
+        <label for="group">Выберите группу:</label>
+        <select id="group">
+            <option value="group1">Группа 1</option>
+            <option value="group2">Группа 2</option>
+            <option value="group3">Группа 3</option>
+        </select>
+
+        <label for="lesson" class="label2">Выберите пару:</label>
+        <select id="lesson">
+            <option value="lesson1">Пара 1</option>
+            <option value="lesson2">Пара 2</option>
+            <option value="lesson3">Пара 3</option>
+        </select>
+        <hr>
+        <br>
+
+        <!-- Ввод темы занятия -->
+        <div>
+            <label for="topic">Тема занятия:</label>
+            <input type="text" id="topic" placeholder="Введите тему занятия">
+        </div>
+
+        <!-- Список студентов для отметки -->
+        <div class="attendance-list">
+            <h2>Отметьте присутствующих:</h2>
+            <div class="title">
+                <h4>Имя</h4>
+                <h4 class="mark">Отметка</h4>
+            </div>
+            <hr>
+            <div>
+                <label for="student1">Студент 1</label>
+                <input type="checkbox" id="student1">
+            </div>
+            <hr>
+            <div>
+                <label for="student2">Студент 2</label>
+                <input type="checkbox" id="student2">
+            </div>
+            <hr>
+            <div>
+                <label for="student3">Студент 3</label>
+                <input type="checkbox" id="student3">
+            </div>
+            <hr>
+        </div>
+
+        <!-- Кнопки -->
+        <button onclick="saveAttendance()">Сохранить</button>
+        <button onclick="showAttendance()">Просмотреть уже отмеченные пары</button>
+
+        <!-- Вывод сохраненной информации -->
+        <div id="savedAttendance" style="margin-top: 20px;"></div>
+    </div>
+
+    <script>
+        // Массивы для хранения посещаемости
+        let attendanceData = {
+            group1: [],
+            group2: [],
+            group3: []
+        };
+
+        // Сохранение посещаемости
+        function saveAttendance() {
+            const group = document.getElementById('group').value;
+            const lesson = document.getElementById('lesson').value;
+            const topic = document.getElementById('topic').value;
+
+            // Отметить студентов
+            const student1 = document.getElementById('student1').checked;
+            const student2 = document.getElementById('student2').checked;
+            const student3 = document.getElementById('student3').checked;
+
+            const attendance = {
+                lesson: lesson,
+                topic: topic,
+                students: {
+                    student1: student1,
+                    student2: student2,
+                    student3: student3
+                }
+            };
+
+            // Сохраняем информацию для выбранной группы
+            attendanceData[group].push(attendance);
+            alert('Посещаемость сохранена!');
+        }
+
+        // Показ уже отмеченных пар
+        function showAttendance() {
+            const group = document.getElementById('group').value;
+            const savedAttendance = document.getElementById('savedAttendance');
+            savedAttendance.innerHTML = '';
+
+            if (attendanceData[group].length === 0) {
+                savedAttendance.innerHTML = '<p>Нет сохраненных данных для этой группы.</p>';
+                return;
+            }
+
+            let attendanceHtml = `<h3>Отмеченные пары для ${group}:</h3>`;
+
+            attendanceData[group].forEach((attendance, index) => {
+                attendanceHtml += `
+                    <div>
+                        <h4>Пара ${index + 1}</h4>
+                        <p>Тема: ${attendance.topic}</p>
+                        <p>Присутствующие:</p>
+                        <ul>
+                            <li>Студент 1: ${attendance.students.student1 ? 'Присутствует' : 'Отсутствует'}</li>
+                            <li>Студент 2: ${attendance.students.student2 ? 'Присутствует' : 'Отсутствует'}</li>
+                            <li>Студент 3: ${attendance.students.student3 ? 'Присутствует' : 'Отсутствует'}</li>
+                        </ul>
+                    </div>
+                `;
+            });
+
+            savedAttendance.innerHTML = attendanceHtml;
+        }
+</script>
+</body>
+</html>

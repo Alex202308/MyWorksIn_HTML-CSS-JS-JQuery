@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random String Generator</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body{
+            font-family: Calibri, 'Trebuchet MS', sans-serif;
+        }
+        .container{
+            width: 30%;
+        }
+        h3{
+            margin-bottom: 5px;
+        }
+        #generate{
+            margin-bottom: 10px;
+        }
+        #generate, #output{
+            margin-top: 15px;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Генератор случайных строк</h2>
+
+        <label for="length">Длина строки:</label>
+        <input type="number" id="length" min="1" value="10">
+
+        <h3>Выберите все нужные критерии которые должный применится к вашей строке</h3>
+
+        <div>
+            <input type="checkbox" id="includeDigits">
+            <label for="includeDigits">Использовать цифры</label>
+        </div>
+
+        <div>
+            <input type="checkbox" id="includeUppercase">
+            <label for="includeUppercase">Использовать заглавные буквы</label>
+        </div>
+
+        <div>
+            <input type="checkbox" id="includeLowercase">
+            <label for="includeLowercase">Использовать строчные буквы</label>
+        </div>
+
+        <button id="generate">Сгенерировать</button>
+        <hr>
+        <h3>Сгенерированная строка:</h3>
+        <input type="text" id="output" readonly>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('#generate').click(function () {
+                let length = $('#length').val();
+                let includeDigits = $('#includeDigits').is(':checked');
+                let includeUppercase = $('#includeUppercase').is(':checked');
+                let includeLowercase = $('#includeLowercase').is(':checked');
+                
+                let characters = '';
+                if (includeDigits) {
+                    characters += '0123456789';
+                }
+                if (includeUppercase) {
+                    characters += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                }
+                if (includeLowercase) {
+                    characters += 'abcdefghijklmnopqrstuvwxyz';
+                }
+
+                if (characters === '') {
+                    alert('Пожалуйста, выберите хотя бы один набор символов!');
+                    return;
+                }
+
+                let randomString = '';
+                for (let i = 0; i < length; i++) {
+                    let randomIndex = Math.floor(Math.random() * characters.length);
+                    randomString += characters[randomIndex];
+                }
+
+                $('#output').val(randomString);
+            });
+        });
+
+    </script>
+</body>
+</html>

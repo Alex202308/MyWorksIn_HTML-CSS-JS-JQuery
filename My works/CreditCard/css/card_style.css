@@ -1,0 +1,70 @@
+body{
+    background-color: #efefef;
+    font-family:  Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.card-wrapper{
+    margin: 0 auto;
+    max-width: 500px;
+    margin-top: 100px;
+}
+.card-form-header{
+    background-color: #DB6423;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: .5em;
+    margin-top: 5px;
+    margin-left: -40px;
+    margin-right: 100px;
+    padding-left: 40px;
+}
+.card-form{
+    border-radius: 10px;
+    background-color: #9fcdcd;
+    padding: 1.5em;
+    
+}
+.form-label{
+    color: #547575;
+    font-size: 13px;
+}
+.form-input{
+    background-color: #a4d2d2;
+    border: none ;
+    box-shadow: 0px 1px 0px 0px #698e8e;
+    padding: .5em;
+}
+.mt{
+    margin-top: 10px;
+}
+.mt-max{
+    margin-top: 2.2em;
+}
+.max-width{
+    width: 250px;
+}
+.row-col-3{
+    margin-top: 15px;
+    margin-bottom: 20px;
+    display: flex;
+    
+}
+
+.input-form-width{
+    width: 60px;
+}
+
+img{
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    margin-left: 280px;
+    margin-top: -84px;
+}
+.col-3{
+    margin-left: 20px;
+}
+.font-weight{
+    font-weight: 500;
+}

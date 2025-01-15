@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Train ticket reservation</title>
+    <style>
+        body{
+            font-family: Calibri, 'Trebuchet MS', sans-serif;
+        }
+        .seats-container {
+            display: grid;
+            grid-template-columns: repeat(14, 50px); /* 14 мест в строке */
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .seat {
+            width: 50px;
+            height: 50px;
+            background-color: lightgreen;
+            text-align: center;
+            line-height: 50px;
+            cursor: pointer;
+        }
+        .seat.booked {
+            background-color: gray;
+            cursor: pointer;
+        }
+        #totalPrice {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 10px;
+        }
+        th {
+            background-color: lightgray;
+        }
+        #bookedSection {
+            display: none; /* Скрываем блок с забронированными билетами по умолчанию */
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Бронирование билетов на поезд</h1>
+
+    <form id="bookingForm">
+        <label for="direction">Направление:</label>
+        <select id="direction" name="direction">
+            <option value="Москва-Санкт-Петербург">Москва - Санкт-Петербург</option>
+            <option value="Москва-Казань">Москва - Казань</option>
+            <option value="Москва-Сочи">Москва - Сочи</option>
+        </select>
+        <br><br>
+
+        <label for="date">Дата поездки:</label>
+        <input type="date" id="date" name="date">
+        <br><br>
+
+        <button type="button" onclick="selectSeats()">Выбрать места</button>
+    </form>
+
+    <div id="seatsSection" style="display:none;">
+        <h2>Выберите места</h2>
+        <div class="seats-container" id="seatsContainer"></div>
+        <div id="totalPrice">Итоговая стоимость: 0 рублей</div><br>
+        <button type="button" onclick="confirmBooking()">Подтвердить бронирование</button>
+    </div>
+
+    <!-- Секция с забронированными билетами, скрыта по умолчанию -->
+    <div id="bookedSection">
+        <h2>Забронированные билеты</h2>
+        <table id="bookedTicketsTable">
+            <thead>
+                <tr>
+                    <th>Направление</th>
+                    <th>Дата</th>
+                    <th>Места</th>
+                    <th>Стоимость</th>
+                </tr>
+            </thead>
+            <tbody id="bookedTicketsBody">
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const seatPrice = 500; // Цена за одно место
+        let seats = Array(28).fill(false); // Массив для хранения статуса мест (true - забронировано)
+        const bookings = []; // Массив для хранения всех бронированных билетов
+
+        function selectSeats() {
+            document.getElementById('seatsSection').style.display = 'block';
+            renderSeats();
+            updateTotalPrice();
+        }
+
+        function renderSeats() {
+            const seatsContainer = document.getElementById('seatsContainer');
+            seatsContainer.innerHTML = '';
+            seats.forEach((booked, index) => {
+                const seat = document.createElement('div');
+                seat.classList.add('seat');
+                seat.textContent = index + 1;
+                if (booked) {
+                    seat.classList.add('booked');
+                } else {
+                    seat.onclick = () => toggleSeatSelection(index);
+                }
+                seat.onclick = () => toggleSeatSelection(index); // Разрешаем кликать на любое место
+                seatsContainer.appendChild(seat);
+            });
+        }
+
+        function toggleSeatSelection(index) {
+            seats[index] = !seats[index]; // Переключение состояния места
+            renderSeats();
+            updateTotalPrice();
+        }
+
+        function updateTotalPrice() {
+            const selectedSeats = seats.filter(booked => booked).length;
+            const totalPrice = selectedSeats * seatPrice;
+            document.getElementById('totalPrice').textContent = `Итоговая стоимость: ${totalPrice} рублей`;
+        }
+
+        function confirmBooking() {
+            const direction = document.getElementById('direction').value;
+            const date = document.getElementById('date').value;
+            const bookedSeats = seats.map((booked, index) => booked ? index + 1 : null).filter(seat => seat !== null);
+
+            if (!date || bookedSeats.length === 0) {
+                alert('Пожалуйста, выберите дату и места для бронирования.');
+                return;
+            }
+
+            bookings.push({
+                direction,
+                date,
+                seats: bookedSeats,
+                totalPrice: bookedSeats.length * seatPrice
+            });
+
+            alert('Бронирование подтверждено!');
+
+            // Показываем секцию с таблицей
+            document.getElementById('bookedSection').style.display = 'block';
+
+            updateBookedTickets();
+        }
+
+        function updateBookedTickets() {
+            const bookedTicketsBody = document.getElementById('bookedTicketsBody');
+            bookedTicketsBody.innerHTML = '';
+
+            bookings.forEach(booking => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${booking.direction}</td>
+                    <td>${booking.date}</td>
+                    <td>${booking.seats.join(', ')}</td>
+                    <td>${booking.totalPrice} рублей</td>
+                `;
+                bookedTicketsBody.appendChild(row);
+            });
+        }
+    </script>
+</body>
+</html>

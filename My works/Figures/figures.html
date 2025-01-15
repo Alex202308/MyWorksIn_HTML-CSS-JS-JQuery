@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Рисование фигур с помощью Canvas</title>
+    <style>
+        .container{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <canvas id="square" width="150" height="150"></canvas>
+        <canvas id="triangle" width="150" height="150"></canvas>
+        <canvas id="triangle2" width="150" height="150"></canvas>
+        <canvas id="circle" width="150" height="150"></canvas>
+        <canvas id="cube" width="150" height="150"></canvas>
+        <canvas id="cylinder" width="150" height="150"></canvas>
+        <canvas id="paralel" width="150" height="150"></canvas>
+        <canvas id="pyramid" width="150" height="150"></canvas>
+    </div>
+
+    <script>
+        function drawSquare() {
+            var canvas = document.getElementById('square');
+            var ctx = canvas.getContext('2d');
+            ctx.fillStyle = 'rgb(89, 196, 246)';
+            ctx.fillRect(25, 25, 100, 100);
+        }
+
+        function drawTriangle() {
+            var canvas = document.getElementById('triangle');
+            var ctx = canvas.getContext('2d');
+            ctx.fillStyle = 'orange';
+            ctx.beginPath();
+            ctx.moveTo(25, 125);
+            ctx.lineTo(125, 125);
+            ctx.lineTo(25, 25);
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        function drawTriangle2() {
+            var canvas = document.getElementById('triangle2');
+            var ctx = canvas.getContext('2d');
+            ctx.fillStyle = 'green';
+            ctx.beginPath();
+            ctx.moveTo(25, 125);
+            ctx.lineTo(125, 125);
+            ctx.lineTo(75, 25);
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        function drawCircle() {
+            var canvas = document.getElementById('circle');
+            var ctx = canvas.getContext('2d');
+            ctx.fillStyle = 'red';
+            ctx.beginPath();
+            ctx.arc(75, 75, 50, 0, Math.PI * 2, true);
+            ctx.fill();
+        }
+
+        function drawCube() {
+            var canvas = document.getElementById('cube');
+            var ctx = canvas.getContext('2d');
+            ctx.fillStyle = 'pink';
+            
+            // Front face
+            ctx.beginPath();
+            ctx.moveTo(25, 40);
+            ctx.lineTo(120, 40);
+            ctx.lineTo(120, 120);
+            ctx.lineTo(25, 120);
+            ctx.closePath();
+            ctx.fill();
+
+            // Top face
+            ctx.beginPath();
+            ctx.moveTo(55, 10);
+            ctx.lineTo(155, 10);
+            ctx.lineTo(120, 38);
+            ctx.lineTo(25, 38);
+            ctx.closePath();
+            ctx.fill();
+
+            // Right side face
+            ctx.beginPath();
+            ctx.moveTo(122, 40);
+            ctx.lineTo(155, 12);
+            ctx.lineTo(155, 90);
+            ctx.lineTo(122, 120);
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        function drawCylinder() {
+            var canvas = document.getElementById('cylinder');
+            var ctx = canvas.getContext('2d');
+            
+            ctx.fillStyle = 'gray';
+            // Top side
+            ctx.beginPath();
+            ctx.ellipse(75, 25, 50, 15, 0, 0, Math.PI * 2); 
+            ctx.fill();
+
+            // Front side
+            ctx.beginPath();
+            ctx.moveTo(25, 32);
+            ctx.quadraticCurveTo(75, 52, 125, 32);
+            ctx.lineTo(125, 110);
+            ctx.lineTo(25, 110);
+            ctx.fill();
+            
+
+            // Bottom side
+            ctx.beginPath();
+            ctx.ellipse(75, 110, 50, 15, 0, 0, Math.PI * 2); 
+            ctx.fill();
+        }
+
+        function drawParalel() {
+            var canvas = document.getElementById('paralel');
+            var ctx = canvas.getContext('2d');
+            ctx.fillStyle = 'yellow';
+
+            //Front side 
+            ctx.beginPath();
+            ctx.moveTo(15, 125);
+            ctx.lineTo(75, 125);
+            ctx.lineTo(45, 70);
+            ctx.closePath();
+            ctx.fill();
+
+            // Right side face
+            ctx.beginPath();
+            ctx.moveTo(48, 68);
+            ctx.lineTo(90, 33);
+            ctx.lineTo(120, 88);
+            ctx.lineTo(79, 125);
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        function drawPyramid() {
+            var canvas = document.getElementById('pyramid');
+            var ctx = canvas.getContext('2d');
+            ctx.fillStyle = 'black';
+           
+            // 1 part
+            ctx.beginPath();
+            ctx.moveTo(25, 75); 
+            ctx.lineTo(55, 80); 
+            ctx.lineTo(70, 125); 
+            ctx.closePath();
+            ctx.fill();
+
+            // 2 part
+            ctx.beginPath();
+            ctx.moveTo(25, 73);
+            ctx.lineTo(55, 78); 
+            ctx.lineTo(65, 30); 
+            ctx.closePath();
+            ctx.fill();
+
+            // 3 part
+            ctx.beginPath();
+            ctx.moveTo(67, 30);
+            ctx.lineTo(57, 78); 
+            ctx.lineTo(120, 73); 
+            ctx.closePath();
+            ctx.fill();
+
+            // 4 part
+            ctx.beginPath();
+            ctx.moveTo(57, 80);
+            ctx.lineTo(72, 125);
+            ctx.lineTo(120, 75);
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        // Вызов функций рисования
+        drawSquare();
+        drawTriangle();
+        drawTriangle2();
+        drawCircle();
+        drawCube();
+        drawCylinder();
+        drawParalel();
+        drawPyramid();
+    </script>
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Palette</title>
+    <style>
+        body{
+            font-family: Calibri, 'Trebuchet MS', sans-serif;
+        }
+        .color-box {
+            width: 200px;
+            height: 100px;
+            margin: 10px;
+            display: inline-block;
+            color: white;
+            text-align: center;
+            line-height: 100px;
+            font-weight: bold;
+        }
+        #colorType{
+           width: 320px;
+        }
+        input{
+            width: 312.5px;
+        }
+        .container{
+            width: 20%;
+            margin: 0 auto;
+            text-align: center;
+        }
+        form{
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Создать новый цвет</h1>
+        <form id="colorForm">
+            <label for="colorName">Название:</label><br>
+            <input type="text" id="colorName" name="colorName" required><br>
+            <span id="nameError" style="color: red;"></span><br>
+
+            <label for="colorType">Тип:</label><br>
+            <select id="colorType" name="colorType">
+                <option value="RGB">RGB</option>
+                <option value="RGBA">RGBA</option>
+                <option value="HEX">HEX</option>
+            </select><br><br>
+
+            <label for="colorCode">Код:</label><br>
+            <input type="text" id="colorCode" name="colorCode" required>
+            <span id="codeError" style="color: red;"></span><br><br>
+
+            <button type="submit">Сохранить</button>
+        </form>
+        <h2>Все цвета</h2>
+    </div>
+    <div id="colorPalette"></div>
+
+    <script>
+ // Функция для загрузки цветов из Cookies
+function loadColors() {
+    const colorPalette = document.getElementById("colorPalette");
+    const colors = getCookie("colors");
+    if (colors) {
+        const colorArray = JSON.parse(colors);
+        colorArray.forEach(color => {
+            addColorToPalette(color);
+        });
+    }
+}
+
+// Функция для добавления цвета в палитру
+function addColorToPalette(color) {
+    const colorPalette = document.getElementById("colorPalette");
+    const colorBox = document.createElement("div");
+    colorBox.className = "color-box";
+
+    // Форматирование строки для backgroundColor
+    let colorCodeFormatted = '';
+    if (color.type === "RGB") {
+        colorCodeFormatted = `rgb(${color.code})`;
+    } else if (color.type === "RGBA") {
+        colorCodeFormatted = `rgba(${color.code})`;
+    } else {
+        colorCodeFormatted = color.code;  // HEX без изменений
+    }
+
+    console.log(`Applying color: ${colorCodeFormatted}`);  // Лог для проверки строки
+
+    // Применение стиля
+    colorBox.style.backgroundColor = colorCodeFormatted;
+    colorBox.textContent = `${color.name} ${colorCodeFormatted}`;
+    colorPalette.appendChild(colorBox);
+}
+
+// Валидация и добавление нового цвета
+document.getElementById("colorForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const colorName = document.getElementById("colorName").value.trim();
+    const colorType = document.getElementById("colorType").value;
+    const colorCode = document.getElementById("colorCode").value.trim();
+    let valid = true;
+
+    // Проверка названия
+    const nameError = document.getElementById("nameError");
+    if (!/^[a-zA-Z]+$/.test(colorName)) {
+        nameError.textContent = "Название должно содержать только буквы.";
+        valid = false;
+    } else {
+        nameError.textContent = "";
+    }
+
+    // Проверка кода цвета
+    const codeError = document.getElementById("codeError");
+    if (colorType === "RGB") {
+        const rgbPattern = /^\d{1,3},\d{1,3},\d{1,3}$/;
+        if (!rgbPattern.test(colorCode)) {
+            codeError.textContent = "RGB должен быть в формате 255,255,255.";
+            valid = false;
+        } else {
+            const rgbValues = colorCode.split(',').map(Number);
+            if (rgbValues.some(val => val < 0 || val > 255)) {
+                codeError.textContent = "Значения RGB должны быть от 0 до 255.";
+                valid = false;
+            } else {
+                codeError.textContent = "";
+            }
+        }
+    } else if (colorType === "RGBA") {
+        const rgbaPattern = /^\d{1,3},\d{1,3},\d{1,3},(0|1|0?\.\d+)$/;
+        if (!rgbaPattern.test(colorCode)) {
+            codeError.textContent = "RGBA должен быть в формате 255,255,255,1.";
+            valid = false;
+        } else {
+            const rgbaValues = colorCode.split(',').map(Number);
+            if (rgbaValues.slice(0, 3).some(val => val < 0 || val > 255) || rgbaValues[3] < 0 || rgbaValues[3] > 1) {
+                codeError.textContent = "Значения RGBA должны быть: от 0 до 255 для RGB и от 0 до 1 для альфа.";
+                valid = false;
+            } else {
+                codeError.textContent = "";
+            }
+        }
+    } else if (colorType === "HEX") {
+        const hexPattern = /^#[0-9A-Fa-f]{6}$/;
+        if (!hexPattern.test(colorCode)) {
+            codeError.textContent = "HEX должен быть в формате #FFFFFF.";
+            valid = false;
+        } else {
+            codeError.textContent = "";
+        }
+    }
+
+    if (valid) {
+        const newColor = { name: colorName.toLowerCase(), type: colorType, code: colorCode };
+
+        // Сохранение цвета в cookies
+        let colors = getCookie("colors");
+        colors = colors ? JSON.parse(colors) : [];
+        colors.push(newColor);
+        setCookie("colors", JSON.stringify(colors), 3);
+
+        addColorToPalette(newColor);
+        document.getElementById("colorForm").reset();
+    }
+});
+
+// Функции для работы с cookies
+function setCookie(name, value, hours) {
+    const date = new Date();
+    date.setTime(date.getTime() + (hours * 60 * 60 * 1000));
+    document.cookie = `${name}=${value}; expires=${date.toUTCString()}; path=/`;
+}
+
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
+// Загрузка цветов при старте
+loadColors();
+
+    </script>
+</body>
+</html>

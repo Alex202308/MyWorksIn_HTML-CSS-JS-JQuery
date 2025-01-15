@@ -1,0 +1,27 @@
+body{
+    background-color: #efefef;
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.container{
+    display: inline;
+    width: 68%;
+    
+}
+.icons span {
+    display: inline-block;
+    border: 1px solid rgb(126, 125, 125);
+    border-radius: 25px;
+    text-align: center;
+    padding: 25px;
+    margin: 10px;
+    
+}
+.header{
+    margin-top: 50px;
+}
+.header, .footer{
+    text-align: center;
+}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Editor</title>
+    <style>
+        body{
+            font-family: Calibri, 'Trebuchet MS', sans-serif;
+        }
+        #textDiv {
+            border: 1px solid #000;
+            padding: 10px;
+            min-height: 100px;
+            width: 300px;
+        }
+
+        #textArea {
+            font-family: Calibri, 'Trebuchet MS', sans-serif;
+            font-size: 16px;
+            padding: 10px;;
+            width: 300px;
+            height: 100px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h4>Press CTRL+E for edit text</h4>
+    <h4>Press CTRL+S for save text</h4>
+    <hr>
+    <div id="textDiv">Initial text. Enter something of your own.</div>
+    <textarea id="textArea"></textarea>
+
+    <script>
+        document.addEventListener('keydown', function(event) {
+            const textDiv = document.getElementById('textDiv');
+            const textArea = document.getElementById('textArea');
+
+            if (event.ctrlKey && event.key === 'e') {
+                event.preventDefault();
+                textArea.value = textDiv.innerText;
+                textDiv.style.display = 'none';
+                textArea.style.display = 'block';
+                textArea.focus();
+            }
+
+            if (event.ctrlKey && event.key === 's') {
+                event.preventDefault();
+                textDiv.innerText = textArea.value;
+                textDiv.style.display = 'block';
+                textArea.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

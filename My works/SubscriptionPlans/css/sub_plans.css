@@ -1,0 +1,71 @@
+body{
+    font-family:'Gill Sans', 'Trebuchet MS', sans-serif;
+    background-color: #efefef;
+}
+.container{
+    width: 70%;
+    justify-content: space-between;
+    margin: 0 auto;
+    display: flex;
+    margin-top: 100px;
+}
+.course{
+    width: 100%;
+    padding: 0px;
+    border: 0px solid #666;
+    border-radius: 20px;
+    background-color: #fff;
+    color: black;
+    text-align: center;
+    margin: 1%;
+    transition: transform 1s;
+    box-shadow: 0px 1px 10px 5px rgba(0,0,0,0.2);
+}
+.plan_name{
+    font-size: 20px;
+    padding: 30px 30px 0px 30px;
+    font-weight: bold;
+}
+hr{
+    height: 3px;
+    border: none;
+    width: 100%;
+}
+.term{
+    color: #8d8d8d;
+}
+p{
+    font-weight: bold;
+}
+.button{
+    margin: 0 auto;
+    width: 100px;
+    height: 40px;
+    align-content: center;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    color: #fff;
+}
+.price{
+    font-size: 30px;
+}
+.red{
+    background-color: #c73756;
+}
+.orange{
+    background-color: #d7913b;
+}
+.blue{
+    background-color: #2B6689;
+}
+.green{
+    background-color: #63BB34;
+}
+.course:hover{
+    cursor: pointer;
+    transform: scale(1.17)
+    
+}
+.button:hover{
+    opacity: 0.7;
+}

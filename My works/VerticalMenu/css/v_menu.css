@@ -1,0 +1,28 @@
+ body{
+    background-color: #efefef;
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+}
+
+.menu {
+    width: 250px;
+}
+.menu-item {
+    color:#efefef;
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background-color: #808080;
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
+
+
+.menu-item:hover {
+    background-color: #5e5e5e;
+}
+.menu-item img {
+    width: 60px; /* размер иконки */
+    height: 60px; /* размер иконки */
+    margin-right: 20px;
+}

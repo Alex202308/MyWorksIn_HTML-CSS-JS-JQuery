@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery</title>
+    <style>
+        *{
+            margin: 0;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        #gallery img {
+            max-width: 600px;
+            max-height: 400px;
+            position: relative;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:disabled {
+            cursor: not-allowed;
+            background-color: #cccccc;
+        }
+        #prevBtn{
+            position: absolute;
+            left: 280px;
+            top: 350px
+        }
+        #nextBtn{
+            position: absolute;
+            right: 300px;
+            top: 350px
+        }
+    </style>
+</head>
+<body>
+
+    <div id="gallery">
+        <img id="image" src="" alt="Gallery">
+    </div>
+    <div>
+        <button id="prevBtn" onclick="showPrevImage()">Previous</button>
+        <button id="nextBtn" onclick="showNextImage()">Next</button>
+    </div>
+
+    <script>
+        // Массив с изображениями
+        const images = [
+            'img/image1.jpg', 
+            'img/image2.jpg',
+            'img/image3.jpg'
+        ];
+
+        let currentIndex = 0;
+
+        // Функция для отображения текущего изображения
+        function updateImage() {
+            const imgElement = document.getElementById('image');
+            imgElement.src = images[currentIndex];
+            updateButtons();
+        }
+
+        // Функция для обновления состояния кнопок
+        function updateButtons() {
+            document.getElementById('prevBtn').disabled = currentIndex === 0;
+            document.getElementById('nextBtn').disabled = currentIndex === images.length - 1;
+        }
+
+        // Функция для показа предыдущего изображения
+        function showPrevImage() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateImage();
+            }
+        }
+
+        // Функция для показа следующего изображения
+        function showNextImage() {
+            if (currentIndex < images.length - 1) {
+                currentIndex++;
+                updateImage();
+            }
+        }
+
+        // Инициализация страницы
+        window.onload = function() {
+            updateImage();
+        };
+    </script>
+
+</body>
+</html>

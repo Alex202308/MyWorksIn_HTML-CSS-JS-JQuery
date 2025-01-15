@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adaptive Blocks</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+.container {
+    display: flex;
+    height: 100%;
+}
+
+.left-block {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: width 0.5s;
+}
+
+.left-top-block {
+    background-color: #87cefa;
+    height: 80%;
+    position: relative;
+}
+
+.left-bottom-block {
+    background-color: #ffcccb;
+    height: 20%;
+    position: relative;
+}
+
+
+
+.right-block {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    transition: width 0.5s;
+}
+
+.top-block {
+    background-color: #28b9b2;
+    height: 20%;
+    position: relative;
+}
+
+.bottom-block {
+    background-color: #ffa07a;
+    height: 80%;
+    position: relative;
+}
+
+.toggle-button {
+    position: absolute;
+    right: -10px;
+    width: 20px;
+    height: 100%;
+    background-color: #bfbebe;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1;
+}
+
+#toggle-icon {
+    font-size: 14px;
+}
+
+.right-slider, .left-slider{
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: ns-resize;
+    background-color: #bfbebe;
+    padding: 5px;
+    width: 100%;
+    height: 20px;
+    text-align: center;
+    font-size: 14px;
+}
+
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-block">
+            <div class="left-top-block">
+                <div class="left-slider">
+                    &#61;&#61;
+                </div>
+            </div>
+            <div class="left-bottom-block"></div>
+            <div class="toggle-button">
+                <span id="toggle-icon">&#9664;</span>
+            </div>
+        </div>
+        <div class="right-block">
+            <div class="top-block">
+                <div class="right-slider" id="right-slider">
+                    &#61;&#61;
+                </div>
+            </div>
+            <div class="bottom-block"></div>
+        </div>
+    </div>
+    
+    <script>
+     $(document).ready(function () {
+    let isLeftBlockVisible = true;
+
+    // Скрытие/показ левого блока
+    $('.toggle-button').click(function () {
+        if (isLeftBlockVisible) {
+            $('.left-block').animate({ width: '0.5%' }, 0,1);
+            $('.right-block').animate({ width: '99.5%' }, 0); // Расширяем правую часть
+            $('#toggle-icon').html('&#9654;'); // Меняем стрелку
+            isLeftBlockVisible = false;
+        } else {
+            $('.left-block').animate({ width: '30%' }, 0);
+            $('.right-block').animate({ width: '70%' }, 0,1); // Возвращаем ширину правой части
+            $('#toggle-icon').html('&#9664;'); // Меняем стрелку обратно
+            isLeftBlockVisible = true;
+        }
+    });
+
+    // Ползунок для изменения высоты правого блока
+    let isRightDragging = false;
+    $('#right-slider').on('mousedown', function (e) {
+        isRightDragging = true;
+        $(document).on('mousemove', function (e) {
+            if (isRightDragging) {
+                let containerHeight = $('.right-block').height();
+                let mouseY = e.pageY;
+                let newTopHeight = mouseY - $('.right-block').offset().top;
+                
+                // Ограничение минимальной высоты блоков
+                if (newTopHeight < 100) newTopHeight = 100;
+                if (newTopHeight > containerHeight - 100) newTopHeight = containerHeight - 100;
+
+                $('.top-block').height(newTopHeight);
+                $('.bottom-block').height(containerHeight - newTopHeight);
+            }
+        });
+    });
+
+    $(document).on('mouseup', function () {
+        isRightDragging = false;
+    });
+
+    // Ползунок для изменения высоты левого блока
+    let isLeftDragging = false;
+    $('.left-slider').on('mousedown', function (e) {
+        isLeftDragging = true;
+        $(document).on('mousemove', function (e) {
+            if (isLeftDragging) {
+                let containerHeight = $('.left-block').height();
+                let mouseY = e.pageY;
+                let newTopHeight = mouseY - $('.left-block').offset().top;
+                
+                // Ограничение минимальной высоты блоков
+                if (newTopHeight < 100) newTopHeight = 100;
+                if (newTopHeight > containerHeight - 100) newTopHeight = containerHeight - 100;
+
+                $('.left-top-block').height(newTopHeight);
+                $('.left-bottom-block').height(containerHeight - newTopHeight);
+            }
+        });
+    });
+
+    $(document).on('mouseup', function () {
+        isLeftDragging = false;
+    });
+});
+
+
+
+    </script>
+</body>
+</html>

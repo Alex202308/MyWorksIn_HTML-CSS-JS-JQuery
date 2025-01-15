@@ -1,0 +1,61 @@
+body{
+    background-color: #efefef;
+    font-size: 15px;
+    font-family:'Gill Sans',  Calibri, 'Trebuchet MS', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    text-transform: uppercase;
+}
+
+.menu {
+    width: 100px;
+    float: left;
+    color:#efefef;
+    background-color: #808080;
+    transition: background-color 0.3s;
+    cursor: pointer;
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    height: 100%; 
+    overflow: hidden;
+    transition: width 1s;
+    
+}
+.content{
+    padding-top: 45px;
+    width: 75%;
+    margin: 0 auto;
+    font-size: 20px;
+}
+.items{
+    padding-top: 50px;
+}
+.menu-item{
+    display: flex;
+    padding: 20px 20px;
+}
+.menu-item span {
+    padding-left: 20px;
+    padding-top: 20px;
+    display: none; /* Скрываем текст по умолчанию */
+}
+.menu-title{
+    padding-top: 30px;
+    padding-left: 30px;
+}
+.menu:hover{
+    width: 250px;
+    
+}
+.menu-item:hover {
+    background-color: #5e5e5e;
+}
+.menu:hover .menu-item span {
+    display: inline; /* Показываем текст при наведении на меню */
+}
+.menu-item img {
+    width: 60px; /* размер иконки */
+    height: 60px; /* размер иконки */
+}

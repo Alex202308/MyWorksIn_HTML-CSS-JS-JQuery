@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Store</title>
+    <style>
+        body{
+            font-family: Calibri, 'Trebuchet MS', sans-serif;
+           
+            
+        }
+        .book-store {
+            display: flex;
+            justify-content: space-around;
+            float: left;
+            width: 70%;
+            
+        }
+        .book {
+            border: 1px solid rgb(118, 120, 118);
+            padding: 10px;
+            width: 200px;
+        }
+        .book-name{
+            margin-bottom: 0;
+        }
+        .placing-order{
+            margin-top: -5px;
+            
+        }
+        h5{
+        
+            font-weight: 400;
+            width: 100px;
+            float: left;
+        }
+        .price{
+            float: right;
+            font-weight: 600;
+            margin-top: 20px;
+        }
+        button{
+            width: 100%;
+        }
+
+        .book img {
+            width: 100%;
+            height: 250px;
+        }
+        .form {
+            width: 25%;
+            float: right;
+            margin-right: 20px;
+        }
+        .form label, .form input, .form textarea {
+            display: block;
+            width: 90%;
+            margin: 0 auto;
+            margin-bottom: 10px;
+        }
+        form{
+            border: 1px solid rgb(118, 120, 118);
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Магазин книг</h1>
+
+    <div class="book-store">
+        <div class="book">
+            <img src="img/book1.jpg" alt="book-img1">
+            <h3 class="book-name">Learning JavaScript: JavaScript Essentials for Modern Application Development</h3>
+            <h5>Ethan Brown</h5>
+            <p class="price">16$</p>
+            <button onclick="selectBook('Learning JavaScript')">Select</button>
+        </div>
+        <div class="book">
+            <img src="img/book2.jpg" alt="book-img2">
+            <h3 class="book-name">You Don't Know JS: Scope & Closures</h3>
+            <h5>Kyle Simpson</h5>
+            <p class="price">20$</p>
+            <button onclick="selectBook('You Don\'t Know JS: Scope & Closures')">Select</button>
+        </div>
+        <div class="book">
+            <img src="img/book3.jpg" alt="book-img3">
+            <h3 class="book-name">JavaScript and JQuery: Interactive Front-End Web Development</h3>
+            <h5>Jon Duckett</h5>
+            <p class="price">22$</p>
+            <button onclick="selectBook('JavaScript and JQuery')">Select</button>
+        </div>
+    </div>
+
+    <div class="form">
+        <h3 class="placing-order">Оформление заказа</h3>
+        <form id="orderForm" onsubmit="submitOrder(event)">
+            <br>
+            <label for="book">Книга:</label>
+            <input type="text" id="book" name="book" readonly required>
+
+            <label for="quantity">Количество:</label>
+            <input type="number" id="quantity" name="quantity" min="1" value="1" required>
+
+            <label for="name">Имя:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="address">Адрес доставки:</label>
+            <textarea id="address" name="address" required></textarea>
+
+            <label for="deliveryDate">Дата доставки:</label>
+            <input type="date" id="deliveryDate" name="deliveryDate" required>
+
+            <label for="comment">Комментарий:</label>
+            <textarea id="comment" name="comment"></textarea>
+
+            <button type="submit">Купить</button>
+            
+        </form>
+    </div>
+
+    <div id="orderConfirmation" style="display:none;">
+        <h3>Спасибо за заказ!</h3>
+        <p id="confirmationMessage"></p>
+    </div>
+
+    <script>
+        function selectBook(bookName) {
+            document.getElementById('book').value = bookName;
+        }
+
+        function submitOrder(event) {
+            event.preventDefault(); // Останавливаем стандартное действие формы
+
+            // Получаем значения из формы
+            const name = document.getElementById('name').value;
+            const book = document.getElementById('book').value;
+            const quantity = document.getElementById('quantity').value;
+            const address = document.getElementById('address').value;
+            const deliveryDate = document.getElementById('deliveryDate').value;
+
+            // Генерируем сообщение
+            const confirmationMessage = `${name}, спасибо за заказ. ${quantity} экз. книги "${book}" будут доставлены по адресу: ${address} в ${deliveryDate}.`;
+
+            // Показываем сообщение
+            document.getElementById('confirmationMessage').textContent = confirmationMessage;
+            document.getElementById('orderConfirmation').style.display = 'block';
+
+            // Скрываем форму
+            document.getElementById('orderForm').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

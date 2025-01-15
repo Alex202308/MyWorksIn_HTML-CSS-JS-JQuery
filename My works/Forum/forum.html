@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forum Messages</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .message-list {
+            margin-bottom: 20px;
+        }
+        .message {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .message .timestamp {
+            font-size: 0.8em;
+            color: #999;
+        }
+        form {
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            max-width: 100%;
+        }
+        label {
+            margin-top: 10px;
+        }
+        input, textarea {
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Forum Messages</h1>
+
+<div class="message-list" id="messageList">
+    <div class="message">
+        <p><strong>John:</strong> It was popularized in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages.</p>
+        <p class="timestamp">10:05:00 22.03.2018</p>
+    </div>
+</div>
+
+<h2>Add new message</h2>
+
+<form id="messageForm">
+    <label for="name">Your name:</label>
+    <input type="text" id="name" required>
+
+    <label for="message">Your message:</label>
+    <textarea id="message" rows="4" required></textarea>
+
+    <button type="submit">Send</button>
+</form>
+
+<script>
+    document.getElementById('messageForm').addEventListener('submit', function(e) {
+        e.preventDefault(); // Остановить отправку формы
+        
+        // Получить значения полей
+        const name = document.getElementById('name').value;
+        const message = document.getElementById('message').value;
+
+        // Создать новый блок сообщения
+        const newMessage = document.createElement('div');
+        newMessage.classList.add('message');
+
+        // Создать содержимое сообщения
+        const messageContent = `<p><strong>${name}:</strong> ${message}</p>
+                                <p class="timestamp">${new Date().toLocaleTimeString()} ${new Date().toLocaleDateString()}</p>`;
+
+        // Вставить содержимое в новый блок сообщения
+        newMessage.innerHTML = messageContent;
+
+        // Добавить новое сообщение в список сообщений
+        document.getElementById('messageList').appendChild(newMessage);
+
+        // Очистить форму
+        document.getElementById('messageForm').reset();
+    });
+
+
+</script>
+</body>
+</html>
+

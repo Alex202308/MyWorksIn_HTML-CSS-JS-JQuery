@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/card_style.css">
+    <title>Credit Card</title>
+</head>
+<body>
+    <div class="card-wrapper">
+        <form class="card-form" action="http://localhost" method="post">
+            <h4 class="card-form-header">Credit Card Details</h4>
+            <!-- Card Number -->
+            <div class="row">
+                <div class="col-1 font-weight">
+                    <label class="form-label" for="">Card Number</label>
+                </div>
+                <div class="col-2 mt">
+                    <input class="form-input max-width" placeholder="1234 5678 9012 3456">
+                </div>
+            </div>
+            <!-- Name On Card -->
+            <div class="row">
+                <div class="col-1 mt font-weight">
+                    <label class="form-label" for="">Name On Card</label>
+                </div>
+                <div class="col-2 mt">
+                    <input class="form-input max-width" placeholder="Name Surname">
+                </div>
+            </div>
+            <!-- Expiry Date & CVV/CVN -->
+             <div class="row-col-3">
+                <div class="">
+                    <div class="form-label mt">
+                        <label class="form-label font-weight" for="">Expiry Date</label>
+                    </div>
+                    <div class="mt">
+                        <input class="form-input input-form-width" placeholder="02">
+                    </div>
+                </div>
+                <div class="col-3 mt-max">
+                    <input class="form-input input-form-width" placeholder="2017">
+                </div>
+                <div class="col-3">
+                    <div class="form-label mt font-weight">
+                        <label class="form-label" for="">CVV / CVN</label>
+                    </div>
+                    <div class="mt">
+                        <input class="form-input input-form-width" type="password" placeholder="***">
+                    </div>
+                </div>
+                <img src="img/moon_flag.png" alt="" >
+             </div>
+        </form>
+        
+    </div>
+</body>
+</html>

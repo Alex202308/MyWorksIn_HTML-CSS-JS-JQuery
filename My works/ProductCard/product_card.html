@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Card</title>
+    <style>
+        .card{
+            width: 500px;
+            height: 462px;
+            margin: 0 auto;
+            position: relative;
+            border: 1px solid #f5dde1;
+        }
+        .product, .description{
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            text-align: center;
+            backface-visibility: hidden;
+            background-color: #fff;
+            transition: 1s;
+        }
+        .description a{
+            display: inline-block;
+            padding: 10px 30px;
+            margin-top: 30px;
+            text-decoration: none;
+            text-transform: uppercase;
+            color: #fff;
+            background-color: #2b2c4b;
+        }
+        .description{
+            box-sizing: border-box;
+            padding: 40px;
+            transform: rotateY(180deg);
+        }
+        .card:hover .product{
+            transform: rotateY(180deg);
+        }
+        .card:hover .description{
+            transform: rotate(360deg);
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="product"><img src="img/iphone12-01.jpg" alt=""></div>
+        <div class="description">
+            <h2>Product Name</h2>
+            <hr>
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Modi officia cum doloribus cumque suscipit, architecto 
+                officiis molestias vel veritatis temporibus quo repellat
+                ipsum non quae libero et eum odio omnis?
+            </p>
+            <a href="#">Buy</a>
+        </div>
+    </div>
+</body>
+</html>

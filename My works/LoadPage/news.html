@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        #news-container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .news-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        #end-of-news {
+            text-align: center;
+            padding: 20px;
+            color: grey;
+            display: none;
+        }
+        #loading{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="news-container">
+        <h1>News</h1>
+        <div id="news-list"></div>
+        <div id="loading">Loading...</div>
+        <div id="end-of-news">All news has been loaded</div>
+    </div>
+    
+
+    <script>
+        // Массив новостей
+        const newsArray = [
+            "News 1: Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reprehenderit quos esse saepe nam, quam, neque ipsum itaque magni vitae velit deserunt quibusdam libero aperiam officia facilis. Rerum saepe soluta a.",
+            "News 2: Ipsum dolor sit, amet consectetur adipisicing elit. Reprehenderit quos esse saepe nam, quam, neque ipsum itaque magni vitae velit deserunt quibusdam libero aperiam officia facilis. Rerum saepe soluta a.Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reprehenderit quos esse saepe nam, quam, neque ipsum itaque magni vitae velit deserunt quibusdam libero aperiam officia facilis. Rerum saepe soluta a.",
+            "News 3: Dolor lorem ipsum sit, amet consectetur adipisicing elit. Reprehenderit quos esse saepe nam, quam, neque ipsum itaque magni vitae velit deserunt quibusdam libero aperiam officia facilis. Rerum saepe soluta a.",
+            "News 4: Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reprehenderit quos esse saepe nam, quam, neque ipsum itaque magni vitae velit deserunt quibusdam libero aperiam officia facilis. Rerum saepe soluta a.",
+            "News 5: Consectetur lorem ipsum dolor sit, amet adipisicing elit. Reprehenderit quos esse saepe nam, quam, neque ipsum itaque magni vitae velit deserunt quibusdam libero aperiam officia facilis. Rerum saepe soluta a.",
+            "News 6: Reprehenderit quos ipsum dolor sit, amet consectetur adipisicing elit. Esse saepe nam, quam, neque ipsum itaque magni vitae velit deserunt quibusdam libero aperiam officia facilis. Rerum saepe soluta a. Аmet consectetur adipisicing elit. Esse saepe nam, quam, neque ipsum itaque magni vitae velit deserunt quibusdam libero aperiam officia facilis. Rerum saepe soluta a.",
+            "News 7: Adipisicing elit ipsum dolor sit, amet consectetur. Reprehenderit quos esse saepe nam, quam, neque ipsum itaque magni vitae velit deserunt quibusdam libero aperiam officia facilis. Rerum saepe soluta a.",
+            "News 8: Magni vitae ipsum dolor sit, amet consectetur adipisicing elit. Reprehenderit quos esse saepe nam, quam, neque ipsum itaque magni vitae velit deserunt quibusdam libero aperiam officia facilis. Rerum saepe soluta a.",
+            "News 9: Quibusdam libero ipsum dolor sit, amet consectetur adipisicing elit. Reprehenderit quos esse saepe nam, quam, neque ipsum itaque velit deserunt aperiam officia facilis. Rerum saepe soluta a.",
+            "News 10: Deserunt ipsum dolor sit, amet consectetur adipisicing elit. Reprehenderit quos esse saepe nam, quam, neque ipsum itaque magni vitae velit quibusdam libero aperiam officia facilis. Rerum saepe soluta a."
+        ];
+
+        let newsIndex = 0;
+        const newsList = document.getElementById("news-list");
+        const loadingIndicator = document.getElementById("loading");
+        const endOfNews = document.getElementById("end-of-news");
+
+        // Функция для загрузки новостей
+        function loadNews() {
+            // Показать индикатор загрузки
+            loadingIndicator.style.display = "block";
+
+            // Задержка для имитации загрузки данных
+            setTimeout(() => {
+                const newsToLoad = Math.min(6, newsArray.length - newsIndex);
+                for (let i = 0; i < newsToLoad; i++) {
+                    if (newsIndex < newsArray.length) {
+                        const newsItem = document.createElement("div");
+                        newsItem.classList.add("news-item");
+                        newsItem.textContent = newsArray[newsIndex++];
+                        newsList.appendChild(newsItem);
+                    }
+                }
+
+                // Скрыть индикатор загрузки
+                loadingIndicator.style.display = "none";
+
+                // Проверка, все ли новости загружены
+                if (newsIndex >= newsArray.length) {
+                    endOfNews.style.display = "block";
+                    window.removeEventListener("scroll", handleScroll);
+                }
+            }, 1000);
+        }
+
+        // Обработчик события скролла
+        function handleScroll() {
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
+                loadNews();
+            }
+        }
+
+        window.addEventListener("scroll", handleScroll);
+
+        // Начальная загрузка новостей
+        loadNews();
+    </script>
+</body>
+</html>
+
+

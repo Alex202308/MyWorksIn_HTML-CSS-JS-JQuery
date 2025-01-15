@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mouse Over Change Color</title>
+    <style>
+        body{
+            margin: 0;
+        }
+        div{
+            background: navy;
+            height: 255px;
+            width: 255px;
+        }
+    </style>
+</head>
+<body>
+    <div id="colorBlock"></div>
+    <script>
+        colorBlock.addEventListener("mousemove",
+            function(e){
+                colorBlock.style.backgroundColor = 
+                "rgb(127," + e.pageX + "," + e.pageY + ")";
+            }
+        )
+    </script>
+</body>
+</html>

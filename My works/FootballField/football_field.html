@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Football Field</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            overflow: hidden;
+        }
+        #field {
+            background: url(img/football-field.jpg) no-repeat center;
+            background-size: cover ;
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        #ball {
+            background: url(img/football-ball.png) no-repeat center;
+            background-size: contain;
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            transition: all 0.5s ease;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+<body>
+    <div id="field">
+        <div id="ball"></div>
+    </div>
+    <script>
+        const field = document.getElementById('field');
+        const ball = document.getElementById('ball');
+
+        field.addEventListener('click', (event) => {
+            const fieldRect = field.getBoundingClientRect();
+            const ballSize = ball.offsetWidth/20;
+
+            let newX = event.clientX - fieldRect.left - ballSize;
+            let newY = event.clientY - fieldRect.top - ballSize;
+
+            // Ограничиваем мяч границами поля
+            newX = Math.max(200, Math.min(newX, fieldRect.width - ball.offsetWidth-100));
+            newY = Math.max(50, Math.min(newY, fieldRect.height - ball.offsetHeight+50));
+
+            ball.style.left = `${newX}px`;
+            ball.style.top = `${newY}px`;
+        });
+    </script>
+</body>
+</html>

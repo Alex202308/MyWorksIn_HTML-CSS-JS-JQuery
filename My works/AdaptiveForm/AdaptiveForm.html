@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/adaptiveform.css">
+    <title>Registration Form</title>
+</head>
+<body>
+    <div class="form-wrapper">
+        <form class="registration-form" action="http://localhost" method="post">
+            <div class="section1">
+                <div class="input-form">
+                    <div class="first-container">
+                        <h2 class="form-header">Registration form</h2>
+                        <span>
+                            <img src="img/username.png" alt="">
+                            <input class="username" type="text" name="username" placeholder="Username">
+                        </span>
+                        <span>
+                            <img src="img/email.png" alt="">
+                            <input class="email" type="email" name="emai" placeholder="Email address">
+                        </span>
+                        <span>
+                            <img src="img/pswd.png" alt="">
+                            <input class="password" type="password" name="password" placeholder="Password">
+                            <input class="conf-password" type="password" name="confirm-password" placeholder="Confirm password">
+                        </span>
+                    </div>
+                    <div class="second-container">
+                        <h2 class="form-header mt">Personal details</h2>
+                        <span>
+                            <input class="f-name" type="text" name="first-name" placeholder="First name">
+                            <input class="l-name" type="text" name="last-name" placeholder="Last name">
+                        </span>
+                        <span>
+                            <select class="gender-option" id="gender">
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                            <input class="date" type="text" name="date-of-birth" value="mm/dd/yyyy">
+                        </span>
+                    </div>
+                </div>
+                <div class="footer">
+                    <input type="checkbox" name="checkbox" id="agree1">
+                    <label for="">I want to receive news and special offers</label>
+                    <br>
+                    <input type="checkbox" name="checkbox" id="agree2">
+                    <label for="">I agree with the Terms and Conditions</label>
+                </div>
+            </div>
+                <hr>
+                <div class="button-section">
+                    <button>Submit</button>
+                </div>
+        </form>
+    </div>
+</body>
+</html>

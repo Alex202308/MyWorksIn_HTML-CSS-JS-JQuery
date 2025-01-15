@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Календарь</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 600px;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #000;
+            text-align: center;
+            padding: 10px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        #generate{
+            font-size: 16px;
+            margin-top: 15px;
+            width: 400px;
+        }
+        #month{
+            margin-right: 23px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Календарь</h1>
+<label for="month">Месяц (1-12):</label>
+<input type="number" id="month" min="1" max="12">
+<label for="year">Год:</label>
+<input type="number" id="year">
+<br>
+<button id="generate">Сгенерировать календарь</button>
+
+<h2 id="calendar-title"></h2>
+<table id="calendar-table"></table>
+
+<script>
+    document.getElementById('generate').onclick = function() {
+        const month = parseInt(document.getElementById('month').value);
+        const year = parseInt(document.getElementById('year').value);
+        generateCalendar(month, year);
+    };
+
+    function generateCalendar(month, year) {
+        const calendarTitle = document.getElementById('calendar-title');
+        const calendarTable = document.getElementById('calendar-table');
+
+        // Проверим введенные данные
+        if (isNaN(month) || isNaN(year) || month < 1 || month > 12) {
+            calendarTitle.innerText = 'Пожалуйста, введите корректные данные.';
+            calendarTable.innerHTML = '';
+            return;
+        }
+
+        calendarTitle.innerText = `Календарь на ${month}/${year}`;
+
+        // Найдем первый день месяца и количество дней в нем
+        const firstDay = new Date(year, month - 1, 1);
+        const lastDay = new Date(year, month, 0);
+        const daysInMonth = lastDay.getDate();
+
+        // Вычислим, какой день недели является первым
+        const startDay = (firstDay.getDay() + 6) % 7; // переводим в 0=понедельник, ..., 6=воскресенье
+
+        // Заполним таблицу
+        calendarTable.innerHTML = '';
+        const header = '<tr><th>Пн</th><th>Вт</th><th>Ср</th><th>Чт</th><th>Пт</th><th>Сб</th><th>Вс</th></tr>';
+        calendarTable.innerHTML += header;
+
+        let row = '<tr>';
+        for (let i = 0; i < startDay; i++) {
+            row += '<td></td>'; // Пустые ячейки до начала месяца
+        }
+        
+        for (let day = 1; day <= daysInMonth; day++) {
+            row += `<td>${day}</td>`;
+            if ((day + startDay) % 7 === 0) {
+                row += '</tr>'; // Закрываем строку после 7 дней
+                calendarTable.innerHTML += row;
+                row = '<tr>'; // Начинаем новую строку
+            }
+        }
+        
+        while (row.split('</td>').length - 1 < 7) {
+            row += '<td></td>'; // Дополняем пустыми ячейками до 7 дней
+        }
+        row += '</tr>';
+        calendarTable.innerHTML += row; // Добавляем оставшуюся строку
+    }
+</script>
+
+</body>
+</html>

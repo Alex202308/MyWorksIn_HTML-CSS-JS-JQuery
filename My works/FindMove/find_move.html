@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find a Movie</title>
+    <style>
+        body {
+            font-family: Calibri, 'Trebuchet MS', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .find-form {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .movie-container {
+            margin-top: 25px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .movie-container img {
+            width: 100%;
+            height: auto;
+        }
+
+        .movie {
+            border: 1px solid #ccc;
+            padding: 10px;
+            width: 200px;
+            background: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin: 20px 0;
+        }
+
+        /* Кнопки пагинации */
+        .pagination button {
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            background-color: white;
+            cursor: pointer;
+        }
+
+        /* Стили для активной и неактивной кнопки */
+        .pagination button:disabled {
+            background-color: #ddd;
+            cursor: not-allowed;
+        }
+
+        .pagination button:not(:disabled):hover {
+            background-color: #eee;
+        }
+
+        .details-container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .details {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 20px;
+            margin-top: 20px;
+            width: 100%;
+            max-width: 800px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Стили для изображения постера */
+        .details img {
+            max-width: 200px;
+            height: auto;
+        }
+
+        .details-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .details h2{
+            margin-top: 0px;
+        }
+        
+    </style>
+</head>
+<body>
+    <h1>Поиск фильмов</h1>
+    <div class="find-form">
+        <form id="search-form">
+            <label for="title">Название: </label>
+            <input type="text" id="title" name="title" required>
+            <label for="type">Тип: </label>
+            <select id="type" name="type">
+                <option value="movie">Фильм</option>
+                <option value="series">Сериал</option>
+                <option value="episode">Эпизод</option>
+            </select>
+            <button type="submit">Поиск</button>
+        </form>
+    </div>
+
+    <div id="movie-list" class="movie-container"></div>
+
+    <div class="pagination" id="pagination"></div>
+
+    <div class="details-container">
+        <div class="details" id="movie-details"></div>
+    </div>
+
+    <script>
+        document.getElementById('search-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            searchMovies(1);  // Начинаем поиск с первой страницы
+        });
+
+        async function searchMovies(page) {
+            const title = document.getElementById('title').value;
+            const type = document.getElementById('type').value;
+            const apiKey = '963d0610';  // Ваш ключ API OMDB
+
+            const url = `http://www.omdbapi.com/?apikey=${apiKey}&s=${title}&type=${type}&page=${page}`;
+
+            const response = await fetch(url);
+            const data = await response.json();
+
+            if (data.Response === 'True') {
+                displayMovies(data.Search);
+                setupPagination(data.totalResults, page);
+                clearDetails();  // Очищаем раздел с деталями при смене страницы
+            } else {
+                document.getElementById('movie-list').innerHTML = '<p>Фильмы не найдены!</p>';
+            }
+        }
+
+        function displayMovies(movies) {
+            const movieList = document.getElementById('movie-list');
+            movieList.innerHTML = '';  // Очищаем предыдущие результаты
+
+            movies.forEach(movie => {
+                const movieItem = document.createElement('div');
+                movieItem.classList.add('movie');
+                movieItem.innerHTML = `
+                    <img src="${movie.Poster !== 'N/A' ? movie.Poster : 'no_image_available.png'}" alt="${movie.Title}">
+                    <h3>${movie.Title} (${movie.Year})</h3>
+                    <button onclick="showDetails('${movie.imdbID}')">Детали</button>
+                `;
+                movieList.appendChild(movieItem);
+            });
+        }
+
+        async function showDetails(imdbID) {
+            const apiKey = '963d0610';  // Замените на свой ключ API OMDB
+            const url = `http://www.omdbapi.com/?apikey=${apiKey}&i=${imdbID}&plot=full`;
+
+            const response = await fetch(url);
+            const data = await response.json();
+
+            const detailsDiv = document.getElementById('movie-details');
+            detailsDiv.style="padding: 20px";
+            detailsDiv.innerHTML = `
+                <img src="${data.Poster !== 'N/A' ? data.Poster : 'no_image_available.png'}" alt="${data.Title}">
+                <div class="details-info">
+                    <h2>${data.Title} (${data.Year})</h2>
+                    <p><strong>Дата выхода:</strong> ${data.Released}</p>
+                    <p><strong>Жанр:</strong> ${data.Genre}</p>
+                    <p><strong>Режиссер:</strong> ${data.Director}</p>
+                    <p><strong>Актеры:</strong> ${data.Actors}</p>
+                    <p><strong>Описание:</strong> ${data.Plot}</p>
+                    <p><strong>Награды:</strong> ${data.Awards}</p>
+                </div>
+            `;
+        }
+
+        function setupPagination(totalResults, currentPage) {
+            const totalPages = Math.ceil(totalResults / 10);
+            const paginationDiv = document.getElementById('pagination');
+            paginationDiv.innerHTML = '';  // Очищаем предыдущую пагинацию
+
+            for (let i = 1; i <= totalPages; i++) {
+                const pageButton = document.createElement('button');
+                pageButton.innerText = i;
+                pageButton.disabled = (i === currentPage);  // Отключаем кнопку для текущей страницы
+                pageButton.addEventListener('click', () => searchMovies(i));
+                paginationDiv.appendChild(pageButton);
+            }
+        }
+
+        function clearDetails() {
+            const detailsDiv = document.getElementById('movie-details');
+            detailsDiv.style = "padding: 0px";
+            detailsDiv.innerHTML = '';  // Удаляем информацию о фильме при смене страницы
+        }
+
+    </script>
+</body>
+</html>
+

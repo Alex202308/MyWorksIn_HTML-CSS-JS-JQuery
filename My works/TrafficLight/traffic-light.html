@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Light</title>
+    <style>
+        .traffic-light {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 300px;
+        }
+        .border{
+            border: 1px solid black;
+            border-radius: 5px;
+            display: flex;
+        }
+        .light {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: grey;
+            margin: 5px;
+        }
+        .button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-left: 20px;
+            background-color: lightgrey;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .active-red {
+            background-color: red;
+        }
+        .active-yellow {
+            background-color: yellow;
+        }
+        .active-green {
+            background-color: green;
+        }
+    </style>
+</head>
+<body>
+    <div class="traffic-light">
+        <div class="border">
+            <div class="light active-red" id="red"></div>
+            <div class="light" id="yellow"></div>
+            <div class="light" id="green"></div>
+        </div>
+        <button class="button" onclick="changeLight()">NEXT</button>
+    </div>
+
+    <script>
+        let currentLight = 'red';
+
+        function changeLight() {
+            let redLight = document.getElementById('red');
+            let yellowLight = document.getElementById('yellow');
+            let greenLight = document.getElementById('green');
+
+            if (currentLight === 'red') {
+                redLight.classList.remove('active-red');
+                yellowLight.classList.add('active-yellow');
+                currentLight = 'yellow';
+            } else if (currentLight === 'yellow') {
+                yellowLight.classList.remove('active-yellow');
+                greenLight.classList.add('active-green');
+                currentLight = 'green';
+            } else if (currentLight === 'green') {
+                greenLight.classList.remove('active-green');
+                redLight.classList.add('active-red');
+                currentLight = 'red';
+            }
+        }
+    </script>
+</body>
+</html>
